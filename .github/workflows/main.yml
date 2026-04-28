@@ -1,0 +1,31 @@
+name: Deploy to GitHub Pages
+
+# 当代码推送到 main 分支时触发此工作流
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 检出当前仓库的代码
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # 设置 GitHub Pages 部署的权限
+    - name: Set up GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./ # 假设 index.html 在仓库根目录
+        # 如果你的 index.html 在其他目录，比如 `dist` 目录，可以修改为 `publish_dir: ./dist`
+
+    # 使工作流的结果可见：部署到 GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
